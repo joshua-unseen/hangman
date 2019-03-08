@@ -1,18 +1,19 @@
 //Globals - do I even need globals? gonna try without...
-// var startText = document.getElementById("start-text");
-// var wins = document.getElementById("wins");
-// var losses = document.getElementById("losses");
-// var puzzle = document.getElementById("puzzle");
-// var tTL = document.getElementById("ttl");
-// var tries = document.getElementById("guesses");
+//Looks like I do need 'em.
+var startText = document.getElementById("start-text");
+var winsText = document.getElementById("wins");
+var lossesText = document.getElementById("losses");
+var puzzleText = document.getElementById("puzzle");
+var tTLText = document.getElementById("ttl");
+var triesText = document.getElementById("guesses");
 
 var wordGame = {
-    startText: document.getElementById("start-text"),
-    wins: document.getElementById("wins"),
-    losses: document.getElementById("losses"),
-    puzzle: document.getElementById("puzzle"),
-    tTL: document.getElementById("ttl"),
-    tries: "",
+    // startText: document.getElementById("start-text"),
+    // wins: document.getElementById("wins"),
+    // losses: document.getElementById("losses"),
+    // puzzle: document.getElementById("puzzle"),
+    // tTL: document.getElementById("ttl"),
+    // tries: "",
     monsters: [
         "dracula",
         "wolfman",
@@ -24,53 +25,83 @@ var wordGame = {
         "freddy",
         "jason",
     ],
-    spacer: "_ ",
+    // spacer: "_",
     gameOn: false,
     inPlay: "",
+    workingString: "",
+    timeToLive: 0,
+    guesses: "",
+    wins: 0,
+    losses: 0,
 
     ChooseMonster() {
-        var spacerArray = [];
         this.gameOn = true;
         // change startText to "-Good Luck!-"
-        this.startText = "-Good Luck! Choose a letter-";
+        startText.innerHTML = "-Good Luck! Choose a letter-";
         // get a random member of the monsters array
         var rand = this.monsters[Math.floor(Math.random() * this.monsters.length)];
         // build spacerArray with this.spacer from monsters[random].length
         var strLen = rand.length
         for (i = 0; i < strLen; i++) {
-            spacerArray.push(this.spacer);
+            this.workingString += "_";
         }
         // display spacerArray to puzzle
-        this.puzzle = spacerArray;
+        puzzleText.innerHTML = this.ShowPuzzleText();
+        triesText.innerHTML = this.guesses;
+
         // set this.tTL to 3*monsters[rand].length
-        this.tTL = strLen * 3;
+        this.timeToLive = strLen * 2;
+        tTLText.innerHTML = this.timeToLive;
+
         this.inPlay = rand.toUpperCase();
+
         console.log(this.gameOn);
-        console.log(this.puzzle);
+        console.log(this.workingString);
         console.log(this.inPlay);
-        console.log(this.tTL);
-        console.log(this.tries);
+        console.log(this.timeToLive);
+        console.log(this.guesses);
+    },
+
+    ShowPuzzleText() {
+        var tempString = "";
+        for (i=0; i < this.workingString.length; i++) {
+            tempString += (this.workingString.charAt(i) + " ");
+        }
+        return tempString;
     },
 
     Guess(letter) {
-        checkIndex = this.inPlay.indexOf(letter);
-        // test whether letter is in inPlay
-        if (checkIndex !== -1) {
-            // if yes, replace this.puzzle[inPlay.indexOf(letter)] with letter
-            puzzle[checkIndex] = letter;
+        // simple indexOf() doesn't do double letters.  Gonna need a for{}
+        var tempString = ""
+        for (i = 0; i < this.inPlay.length; i++) {
+            if (this.inPlay.charAt(i) === letter) {
+                tempString += letter;
+            }
+            else {
+                tempString += this.workingString.charAt(i);
+            }
+        }
+        this.workingString = tempString;
+        puzzleText.innerHTML = this.ShowPuzzleText();
+
+        if (this.inPlay.indexOf(letter) === -1) {
+            this.guesses += letter;
+            triesText.innerHTML = this.guesses;
         }
         // if this.puzzle.includes(spacer) === false call this.YouWin()
-        if (this.puzzle.includes(this.spacer) === false) {
+        if (this.workingString === this.inPlay) {
             this.YouWin();
         }
-        // decrement this.tTL
-        this.tTL--;
-        this.tries = document.getElementById("guesses");
+        else {
+            // decrement this.tTL
+            this.timeToLive--;
+            tTLText.innerHTML = this.timeToLive;
 
-        // if this.tTL === 0, call this.YouLose()
-        // could be done outside of object in a for loop, but that would remove a lot of the point of making this an object
-        if (this.tTL === 0) {
-            this.YouLose();
+            // if this.tTL === 0, call this.YouLose()
+            // could be done outside of object in a for loop, but that would remove a lot of the point of making this an object
+            if (this.timeToLive === 0) {
+                this.YouLose();
+            }
         }
     },
 
@@ -80,27 +111,38 @@ var wordGame = {
             this.ChooseMonster();
         }
         // test whether keyPress is a letter and has not been guessed yet
-        else if (/[a-z]/i.test(keyPress) && this.tries.indexOf(keyPress) === -1) {
+        else if (/[A-Z]/.test(keyPress) && (this.guesses.indexOf(keyPress) === -1 && this.workingString.indexOf(keyPress) === -1)) {
             // if yes this.guess(keyPress)
-            this.Guess(keyPress.toUpperCase());
+            this.Guess(keyPress);
         }
     },
 
     YouLose() {
         // increment losses
         this.losses++;
+        lossesText.innerHTML = this.losses;
         // change startText to "-You lose! Choose a letter to try again-"
-        this.startText = "-You lose! Press a key to try again-";
+        startText.innerHTML = "-You lose! Press a key to try again-";
+        this.ResetGame();
     },
 
     YouWin() {
         // increment wins
         this.wins++;
+        winsText.innerHTML = this.wins;
         // change startText to "-You win! Choose a letter to play again-"
-        this.startText = "-You win! Choose a letter to play again-"
+        startText.innerHTML = "-You win! Press a key to play again-"
+        this.ResetGame();
+    },
+    ResetGame() {
+        this.gameOn = false;
+        this.inPlay = "";
+        this.workingString = "";
+        this.timeToLive = 0;
+        this.guesses = "";
     }
 };
 
 document.onkeyup = function (event) {
-    wordGame.HandleInput(event.key);
+    wordGame.HandleInput(event.key.toUpperCase());
 }
