@@ -111,7 +111,8 @@ var wordGame = {
             this.guesses.indexOf(keyPress) === -1 &&
             this.workingString.indexOf(keyPress) === -1 &&
             keyPress !== "ENTER" &&
-            keyPress !== "TAB") {
+            keyPress !== "TAB" &&
+            keyPress !== "SHIFT") {
             this.Guess(keyPress);
         }
     },
