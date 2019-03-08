@@ -47,12 +47,6 @@ var wordGame = {
         tTLText.innerHTML = this.timeToLive;
         // Store the monster's name in upper case
         this.inPlay = rand.toUpperCase();
-
-        console.log(this.gameOn);
-        console.log(this.workingString);
-        console.log(this.inPlay);
-        console.log(this.timeToLive);
-        console.log(this.guesses);
     },
 
     ShowPuzzleText() {
@@ -82,7 +76,7 @@ var wordGame = {
 
         if (this.inPlay.indexOf(letter) === -1) {
             // If the guess isn't in the solution, throw it in the discard pile
-            this.guesses += letter;
+            this.guesses += (letter + " ");
             triesText.innerHTML = this.guesses;
         }
 
@@ -140,10 +134,6 @@ var wordGame = {
         this.guesses = "";
         // take the current monster out of rotation until the page is reloaded.
         resetMonsters = this.monsters.splice(this.monsters.indexOf(this.inPlay.toLowerCase()), 1);
-        // this.monsters = resetMonsters;
-        console.log(this.inPlay);
-        console.log(resetMonsters);
-        console.log(this.monsters);
     }
 };
 
