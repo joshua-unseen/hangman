@@ -109,7 +109,9 @@ var wordGame = {
         }
         else if (/[A-Z]/.test(keyPress) &&
             this.guesses.indexOf(keyPress) === -1 &&
-            this.workingString.indexOf(keyPress) === -1) {
+            this.workingString.indexOf(keyPress) === -1 &&
+            keyPress !== "ENTER" &&
+            keyPress !== "TAB") {
             this.Guess(keyPress);
         }
     },
@@ -138,7 +140,7 @@ var wordGame = {
         this.timeToLive = 0;
         this.guesses = "";
         // take the current monster out of rotation until the page is reloaded.
-        this.monsters.splice(this.monsters.indexOf(this.inPlay), 1);
+        this.monsters = this.monsters.splice(this.monsters.indexOf(this.inPlay), 1);
     }
 };
 
