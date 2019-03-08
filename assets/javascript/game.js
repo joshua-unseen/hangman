@@ -25,13 +25,6 @@ var wordGame = {
     guesses: "",
     wins: 0,
     losses: 0,
-    fnMetas: [      //Gotta be a better way to eliminate these...
-        "ENTER",
-        "TAB",
-        "SHIFT",
-        "ALT",
-        "CONTROL",
-    ]
 
     ChooseMonster() {
         this.gameOn = true;
@@ -114,10 +107,10 @@ var wordGame = {
         if (this.gameOn === false) {
             this.ChooseMonster();
         }
-        else if (/[A-Z]/.test(keyPress) &&
-            this.guesses.indexOf(keyPress) === -1 &&
-            this.workingString.indexOf(keyPress) === -1 &&
-            this.fnMetas.indexOf(keyPress) === -1) {
+        else if (keyPress.length === 1 &&   // Have I been given a single character?
+            this.guesses.indexOf(keyPress) === -1 &&    // Has it already been played?
+            this.workingString.indexOf(keyPress) === -1 &&  // Already played, continued.
+            /[A-Z]{1}/.test(keyPress)) {    //RegEx: is it a single A-Z char?
             this.Guess(keyPress);
         }
     },
@@ -140,13 +133,17 @@ var wordGame = {
     },
     ResetGame() {
         // knock almost everything back to initial values
+        var resetMonsters = [];
         this.gameOn = false;
-        this.inPlay = "";
         this.workingString = "";
         this.timeToLive = 0;
         this.guesses = "";
         // take the current monster out of rotation until the page is reloaded.
-        this.monsters = this.monsters.splice(this.monsters.indexOf(this.inPlay), 1);
+        resetMonsters = this.monsters.splice(this.monsters.indexOf(this.inPlay.toLowerCase()), 1);
+        // this.monsters = resetMonsters;
+        console.log(this.inPlay);
+        console.log(resetMonsters);
+        console.log(this.monsters);
     }
 };
 
