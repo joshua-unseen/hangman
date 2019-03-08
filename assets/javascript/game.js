@@ -1,5 +1,4 @@
-//Globals - do I even need globals? gonna try without...
-//Looks like I do need 'em.
+// Document interfaces seem to be easiest as globals.
 var startText = document.getElementById("start-text");
 var winsText = document.getElementById("wins");
 var lossesText = document.getElementById("losses");
@@ -8,12 +7,6 @@ var tTLText = document.getElementById("ttl");
 var triesText = document.getElementById("guesses");
 
 var wordGame = {
-    // startText: document.getElementById("start-text"),
-    // wins: document.getElementById("wins"),
-    // losses: document.getElementById("losses"),
-    // puzzle: document.getElementById("puzzle"),
-    // tTL: document.getElementById("ttl"),
-    // tries: "",
     monsters: [
         "dracula",
         "wolfman",
@@ -25,7 +18,6 @@ var wordGame = {
         "freddy",
         "jason",
     ],
-    // spacer: "_",
     gameOn: false,
     inPlay: "",
     workingString: "",
@@ -36,23 +28,24 @@ var wordGame = {
 
     ChooseMonster() {
         this.gameOn = true;
-        // change startText to "-Good Luck!-"
         startText.innerHTML = "-Good Luck! Choose a letter-";
-        // get a random member of the monsters array
+        // Pick a monster from the array:
         var rand = this.monsters[Math.floor(Math.random() * this.monsters.length)];
-        // build spacerArray with this.spacer from monsters[random].length
         var strLen = rand.length
+
+        // Set up the blank string
         for (i = 0; i < strLen; i++) {
             this.workingString += "_";
         }
-        // display spacerArray to puzzle
+
+        // Initialize puzzle and guesses html
         puzzleText.innerHTML = this.ShowPuzzleText();
         triesText.innerHTML = this.guesses;
 
-        // set this.tTL to 3*monsters[rand].length
-        this.timeToLive = strLen * 2;
+        // How many lives should we get?
+        this.timeToLive = strLen + 5;
         tTLText.innerHTML = this.timeToLive;
-
+        // Store the monster's name in upper case
         this.inPlay = rand.toUpperCase();
 
         console.log(this.gameOn);
@@ -63,15 +56,17 @@ var wordGame = {
     },
 
     ShowPuzzleText() {
+        // Sets up the spaces between the blanks
         var tempString = "";
-        for (i=0; i < this.workingString.length; i++) {
+        for (i = 0; i < this.workingString.length; i++) {
             tempString += (this.workingString.charAt(i) + " ");
         }
         return tempString;
     },
 
     Guess(letter) {
-        // simple indexOf() doesn't do double letters.  Gonna need a for{}
+        // Finds all occurrences of the guessed char in the monster's name
+        // and rebuilds the workingString with any new characters replacing one or more blanks
         var tempString = ""
         for (i = 0; i < this.inPlay.length; i++) {
             if (this.inPlay.charAt(i) === letter) {
@@ -82,37 +77,39 @@ var wordGame = {
             }
         }
         this.workingString = tempString;
+        // Display the updated workingString
         puzzleText.innerHTML = this.ShowPuzzleText();
 
         if (this.inPlay.indexOf(letter) === -1) {
+            // If the guess isn't in the solution, throw it in the discard pile
             this.guesses += letter;
             triesText.innerHTML = this.guesses;
         }
-        // if this.puzzle.includes(spacer) === false call this.YouWin()
+
         if (this.workingString === this.inPlay) {
+            // A winner is you!
             this.YouWin();
         }
         else {
-            // decrement this.tTL
+            // Lose a life...
             this.timeToLive--;
             tTLText.innerHTML = this.timeToLive;
 
-            // if this.tTL === 0, call this.YouLose()
-            // could be done outside of object in a for loop, but that would remove a lot of the point of making this an object
             if (this.timeToLive === 0) {
+                // Oh, you died.  Sad.
                 this.YouLose();
             }
         }
     },
 
     HandleInput(keyPress) {
-        // test whether game has started, calls this.ChooseMonster() if not
+        // Starts the game or tests input validity
         if (this.gameOn === false) {
             this.ChooseMonster();
         }
-        // test whether keyPress is a letter and has not been guessed yet
-        else if (/[A-Z]/.test(keyPress) && (this.guesses.indexOf(keyPress) === -1 && this.workingString.indexOf(keyPress) === -1)) {
-            // if yes this.guess(keyPress)
+        else if (/[A-Z]/.test(keyPress) &&
+            this.guesses.indexOf(keyPress) === -1 &&
+            this.workingString.indexOf(keyPress) === -1) {
             this.Guess(keyPress);
         }
     },
@@ -121,7 +118,7 @@ var wordGame = {
         // increment losses
         this.losses++;
         lossesText.innerHTML = this.losses;
-        // change startText to "-You lose! Choose a letter to try again-"
+        // Be informative, web page!
         startText.innerHTML = "-You lose! Press a key to try again-";
         this.ResetGame();
     },
@@ -130,16 +127,18 @@ var wordGame = {
         // increment wins
         this.wins++;
         winsText.innerHTML = this.wins;
-        // change startText to "-You win! Choose a letter to play again-"
         startText.innerHTML = "-You win! Press a key to play again-"
         this.ResetGame();
     },
     ResetGame() {
+        // knock almost everything back to initial values
         this.gameOn = false;
         this.inPlay = "";
         this.workingString = "";
         this.timeToLive = 0;
         this.guesses = "";
+        // take the current monster out of rotation until the page is reloaded.
+        this.monsters.splice(this.monsters.indexOf(this.inPlay), 1);
     }
 };
 
