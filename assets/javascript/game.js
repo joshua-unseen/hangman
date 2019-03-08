@@ -25,6 +25,13 @@ var wordGame = {
     guesses: "",
     wins: 0,
     losses: 0,
+    fnMetas: [      //Gotta be a better way to eliminate these...
+        "ENTER",
+        "TAB",
+        "SHIFT",
+        "ALT",
+        "CONTROL",
+    ]
 
     ChooseMonster() {
         this.gameOn = true;
@@ -110,9 +117,7 @@ var wordGame = {
         else if (/[A-Z]/.test(keyPress) &&
             this.guesses.indexOf(keyPress) === -1 &&
             this.workingString.indexOf(keyPress) === -1 &&
-            keyPress !== "ENTER" &&
-            keyPress !== "TAB" &&
-            keyPress !== "SHIFT") {
+            this.fnMetas.indexOf(keyPress) === -1) {
             this.Guess(keyPress);
         }
     },
