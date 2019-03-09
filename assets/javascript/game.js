@@ -27,33 +27,38 @@ var wordGame = {
     losses: 0,
 
     ChooseMonster() {
-        this.gameOn = true;
-        startText.innerHTML = "-Good Luck! Choose a letter-";
-        // Pick a monster from the array:
-        var rand = this.monsters[Math.floor(Math.random() * this.monsters.length)];
-        var strLen = rand.length
-
-        // Set up the blank string
-        for (i = 0; i < strLen; i++) {
-            this.workingString += "_";
+        if (this.monsters.length === 0) {   // Need a sanity check since I started removing answers
+            startText.innerHTML = "-You've run through the whole list!  Reload the page to start again-";
         }
+        else {
+            this.gameOn = true;
+            startText.innerHTML = "-Good Luck! Choose a letter-";
+            // Pick a monster from the array:
+            var rand = this.monsters[Math.floor(Math.random() * this.monsters.length)];
+            var strLen = rand.length
 
-        // Initialize puzzle and guesses html
-        puzzleText.innerHTML = this.ShowPuzzleText();
-        triesText.innerHTML = this.guesses;
+            // Set up the blank string
+            for (i = 0; i < strLen; i++) {
+                this.workingString += "_";
+            }
 
-        // How many lives should we get?
-        this.timeToLive = strLen + 5;
-        tTLText.innerHTML = this.timeToLive;
-        // Store the monster's name in upper case
-        this.inPlay = rand.toUpperCase();
+            // Initialize puzzle and guesses html
+            puzzleText.innerHTML = this.ShowPuzzleText();
+            triesText.innerHTML = this.guesses;
+
+            // How many lives should we get?
+            this.timeToLive = strLen + 5;
+            tTLText.innerHTML = this.timeToLive;
+            // Store the monster's name in upper case
+            this.inPlay = rand.toUpperCase();
+        }
     },
 
     ShowPuzzleText() {
         // Sets up the spaces between the blanks
-        var tempString = "";
-        for (i = 0; i < this.workingString.length; i++) {
-            tempString += (this.workingString.charAt(i) + " ");
+        var tempString = this.workingString.charAt(0);
+        for (i = 1; i < this.workingString.length; i++) {
+            tempString += (" " + this.workingString.charAt(i));
         }
         return tempString;
     },

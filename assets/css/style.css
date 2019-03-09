@@ -1,0 +1,16 @@
+body {
+    background: darkblue;
+    text-align: center;
+    color: lightslategray;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+header {
+    padding: 20px;
+}
+
+div {
+    float: left;
+    width: 40%;
+    margin: 80px;
+}

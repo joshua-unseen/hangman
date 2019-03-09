@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,13 +8,17 @@
     <link rel="stylesheet" href="assets/css/style.css">
     <title>Hangman</title>
 </head>
+
 <body>
     <header>
         <h1>Monsters!</h1>
+        <p id="start-text">-Press a key to get started-</p>
     </header>
     <div>
-        <p id="start-text">-Press a key to get started-</p>
-        <p><span id="wins">0</span> wins - <span id="losses">0</span> losses</p>
+        <p><span id="wins">0</span> wins</p>
+        <p><span id="losses">0</span> losses</p>
+    </div>
+    <div>
         <p id="puzzle"></p>
         <p><span id="ttl"></span> guesses left</p>
         <p>Letters tried:</p>
@@ -21,4 +26,5 @@
     </div>
     <script src="assets/javascript/game.js"></script>
 </body>
+
 </html>
