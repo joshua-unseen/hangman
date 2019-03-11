@@ -1,16 +1,88 @@
 body {
-    background: darkblue;
+    background: black;
     text-align: center;
     color: lightslategray;
     font-family: 'Courier New', Courier, monospace;
+    margin: 0;
 }
 
 header {
     padding: 20px;
 }
 
-div {
-    float: left;
-    width: 40%;
-    margin: 80px;
+header, div.outer {
+    position: relative;
+    background: darkblue;
+    border: 1px solid lightslategrey;
+}
+
+div.outer {
+    display: inline-flex;
+    width: 290px;
+    height: 360px;
+    margin: 40px;
+    /* padding: 30px; */
+    vertical-align: top;
+}
+
+div.inner {
+    width: 100%;
+    margin: auto 0;
+}
+
+img.corner {
+    position: absolute;
+    height: 50%;
+    width: 50%;
+}
+
+img.bl {
+    bottom: 0px;
+    left: 0px;
+}
+img.br {
+    bottom: 0px;
+    right: 0px;
+    transform: scaleX(-1);
+}
+img.tr {
+    top: 0px;
+    right: 0px;
+    transform: scale(-1,-1);
+}
+img.tl {
+    top: 0px;
+    left: 0px;
+    transform: scaleY(-1);
+}
+
+@media screen and (min-width: 768px) {
+    header {
+        width: 768px;
+        margin: 0 auto;
+        padding: 20px 0;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    div.outer {
+        margin: 40px auto;
+        
+    }
+    #lefty {
+        margin-left: 0;
+        margin-right: auto;
+    }
+    #righty {
+        margin-left: auto;
+        margin-right: 0;
+    }
+}
+
+@media screen and (max-width: 592px) {
+    div.outer {
+        height: auto;
+        margin: 20px 0 0 0;
+        width: 80%;
+    }
 }

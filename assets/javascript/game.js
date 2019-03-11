@@ -44,7 +44,8 @@ var wordGame = {
 
             // Initialize puzzle and guesses html
             puzzleText.innerHTML = this.ShowPuzzleText();
-            triesText.innerHTML = this.guesses;
+            // triesText.innerHTML = this.guesses;
+            triesText.innerHTML = "&nbsp";
 
             // How many lives should we get?
             this.timeToLive = strLen + 5;

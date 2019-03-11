@@ -13,16 +13,34 @@
     <header>
         <h1>Monsters!</h1>
         <p id="start-text">-Press a key to get started-</p>
+        <img src="assets/images/web-corner.svg" alt="" class="bl corner">
+        <img src="assets/images/web-corner.svg" alt="" class="br corner">
+        <img src="assets/images/web-corner.svg" alt="" class="tr corner">
+        <img src="assets/images/web-corner.svg" alt="" class="tl corner">
     </header>
-    <div>
-        <p><span id="wins">0</span> wins</p>
-        <p><span id="losses">0</span> losses</p>
+    <div class="outer" id="lefty">
+        <div class="inner">
+            <p>&nbsp;</p>
+            <p><span id="wins">0</span> wins</p>
+            <p><span id="losses">0</span> losses</p>
+            <p>&nbsp;</p>
+        </div>
+        <img src="assets/images/web-corner.svg" alt="" class="bl corner">
+        <img src="assets/images/web-corner.svg" alt="" class="br corner">
+        <img src="assets/images/web-corner.svg" alt="" class="tr corner">
+        <img src="assets/images/web-corner.svg" alt="" class="tl corner">
     </div>
-    <div>
-        <p id="puzzle"></p>
-        <p><span id="ttl"></span> guesses left</p>
-        <p>Letters tried:</p>
-        <p id="guesses"></p>
+    <div class="outer" id="righty">
+        <div class="inner">
+            <p id="puzzle">&nbsp;</p>
+            <p>Guesses left: <span id="ttl"></span></p>
+            <p>Letters tried:</p>
+            <p id="guesses">&nbsp;</p>
+        </div>
+        <img src="assets/images/web-corner.svg" alt="" class="bl corner">
+        <img src="assets/images/web-corner.svg" alt="" class="br corner">
+        <img src="assets/images/web-corner.svg" alt="" class="tr corner">
+        <img src="assets/images/web-corner.svg" alt="" class="tl corner">
     </div>
     <script src="assets/javascript/game.js"></script>
 </body>
