@@ -6,6 +6,10 @@ body {
     margin: 0;
 }
 
+audio {
+    display: none;
+}
+
 header {
     padding: 20px;
 }
@@ -64,25 +68,29 @@ img.tl {
     }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 752px) {
     div.outer {
         margin: 40px auto;
         
     }
     #lefty {
-        margin-left: 0;
-        margin-right: auto;
+        float: left;
+        margin-left: 10px;
     }
     #righty {
-        margin-left: auto;
-        margin-right: 0;
+        float: right;
+        margin-right: 10px;
     }
 }
 
-@media screen and (max-width: 592px) {
+@media screen and (max-width: 604px) {
     div.outer {
         height: auto;
-        margin: 20px 0 0 0;
         width: 80%;
+    }
+
+    #lefty, #righty {
+        margin: 20px 0 0 0;
+        float: none;
     }
 }

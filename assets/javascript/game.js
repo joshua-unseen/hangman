@@ -5,6 +5,8 @@ var lossesText = document.getElementById("losses");
 var puzzleText = document.getElementById("puzzle");
 var tTLText = document.getElementById("ttl");
 var triesText = document.getElementById("guesses");
+var yaySnd = document.getElementById("yay");
+var booSnd = document.getElementById("boo");
 
 var wordGame = {
     monsters: [
@@ -71,6 +73,7 @@ var wordGame = {
         for (i = 0; i < this.inPlay.length; i++) {
             if (this.inPlay.charAt(i) === letter) {
                 tempString += letter;
+                yaySnd.play();
             }
             else {
                 tempString += this.workingString.charAt(i);
@@ -84,6 +87,7 @@ var wordGame = {
             // If the guess isn't in the solution, throw it in the discard pile
             this.guesses += (letter + " ");
             triesText.innerHTML = this.guesses;
+            booSnd.play();
         }
 
         if (this.workingString === this.inPlay) {
@@ -110,7 +114,7 @@ var wordGame = {
         else if (keyPress.length === 1 &&   // Have I been given a single character?
             this.guesses.indexOf(keyPress) === -1 &&    // Has it already been played?
             this.workingString.indexOf(keyPress) === -1 &&  // Already played, continued.
-            /[A-Z]{1}/.test(keyPress)) {    //RegEx: is it a single A-Z char?
+            /[A-Z]/.test(keyPress)) {    //RegEx: is it a single A-Z char?
             this.Guess(keyPress);
         }
     },
