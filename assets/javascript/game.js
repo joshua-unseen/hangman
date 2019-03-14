@@ -7,6 +7,8 @@ var tTLText = document.getElementById("ttl");
 var triesText = document.getElementById("guesses");
 var yaySnd = document.getElementById("yay");
 var booSnd = document.getElementById("boo");
+var winSnd = document.getElementById("win");
+var loseSnd = document.getElementById("lose");
 
 var wordGame = {
     monsters: [
@@ -122,15 +124,17 @@ var wordGame = {
     YouLose() {
         // increment losses
         this.losses++;
+        loseSnd.play();
         lossesText.innerHTML = this.losses;
         // Be informative, web page!
         startText.innerHTML = "-You lose! Press a key to try again-";
         this.ResetGame();
     },
-
+    
     YouWin() {
         // increment wins
         this.wins++;
+        winSnd.play();
         winsText.innerHTML = this.wins;
         startText.innerHTML = "-You win! Press a key to play again-"
         this.ResetGame();
